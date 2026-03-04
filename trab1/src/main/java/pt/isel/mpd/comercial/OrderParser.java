@@ -46,15 +46,19 @@ public class OrderParser {
             default -> throw new InvalidOrderException();
         };
 
-        Beverage withTopper = null;
-        if (parts[3].equals("and")) {
-            withTopper = switch(parts[4]) {
-                case "chantilly" -> factory.createChantillyTopper(beverage);
-                case "caramel" -> factory.createCaramelTopper(beverage);
-                default -> throw new InvalidOrderException();
-            };
+        if (parts.length == 3) return beverage;
+
+        if (parts.length < 5 ||  !parts[3].equals("and")) {
+            throw new InvalidOrderException();
         }
-        return withTopper == null ? beverage : withTopper;
+        Beverage withTopper = switch(parts[4]) {
+            case "milk" -> factory.createChantillyTopper(beverage);
+            case "caramel" -> factory.createCaramelTopper(beverage);
+            default -> throw new InvalidOrderException();
+        };
+
+
+        return withTopper;
     }
 
     public List<Beverage> parseOrder(String order) throws InvalidOrderException, IOException {

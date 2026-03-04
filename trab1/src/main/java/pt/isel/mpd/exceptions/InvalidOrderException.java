@@ -1,4 +1,4 @@
 package pt.isel.mpd.exceptions;
 
-public class InvalidOrderException {
+public class InvalidOrderException extends RuntimeException{
 }
